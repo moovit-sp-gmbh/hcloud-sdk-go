@@ -1,0 +1,2 @@
+test:
+	EMAIL=account@moovit-sp.com SERVER=https://dev.app.helmut.cloud TOKEN="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmYwYzkzYTM4Yzg1M2U3MGY5OWVjNDMiLCJzZXNzaW9uIjoiMWZmNDhjNDktYTIxMy00NmUwLTg0MWItYzE5NGI1ODdjOGIyIiwiaWF0IjoxNjc3NjYzMjgyfQ.NoTT4lzcRpOmewRSO_oocceBNAdfdu09sdz1Nhoanzc" go test ./...  -count=1
