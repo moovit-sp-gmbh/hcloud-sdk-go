@@ -8,7 +8,7 @@ import (
 )
 
 func (c *Client) ListOrganizations(page int, limit int) (*[]hcloud.Organization, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization?page=%d&limit=%d", page, limit))
+	_, body, erro := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization?page=%d&limit=%d", page, limit))
 	if erro != nil {
 		return nil, erro
 	}
@@ -23,7 +23,7 @@ func (c *Client) ListOrganizations(page int, limit int) (*[]hcloud.Organization,
 }
 
 func (c *Client) CreateOrganization(name string, company string) (*hcloud.Organization, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Post(c.getEndpoint()+"/v1/organization", hcloud.Organization{Name: name, Company: company})
+	_, body, erro := c.client.Post(c.getEndpoint()+"/v1/organization", hcloud.Organization{Name: name, Company: company})
 	if erro != nil {
 		return nil, erro
 	}
@@ -38,7 +38,7 @@ func (c *Client) CreateOrganization(name string, company string) (*hcloud.Organi
 }
 
 func (c *Client) GetOrganizationById(id string) (*hcloud.Organization, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Get(c.getEndpoint() + "/v1/organization/" + id)
+	_, body, erro := c.client.Get(c.getEndpoint() + "/v1/organization/" + id)
 	if erro != nil {
 		return nil, erro
 	}
@@ -53,7 +53,7 @@ func (c *Client) GetOrganizationById(id string) (*hcloud.Organization, *hcloud.E
 }
 
 func (c *Client) DeleteOrganizationById(id string) *hcloud.ErrorResponse {
-	_, _, erro := c.HcloudClient.Delete(c.getEndpoint() + "/v1/organization/" + id)
+	_, _, erro := c.client.Delete(c.getEndpoint() + "/v1/organization/" + id)
 	if erro != nil {
 		return erro
 	}
@@ -62,7 +62,7 @@ func (c *Client) DeleteOrganizationById(id string) *hcloud.ErrorResponse {
 }
 
 func (c *Client) ListOrganizationMembersById(id string, page int, limit int) (*[]hcloud.OrganizationMember, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization/"+id+"/member?page=%d&limit=%d", page, limit))
+	_, body, erro := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization/"+id+"/member?page=%d&limit=%d", page, limit))
 	if erro != nil {
 		return nil, erro
 	}
@@ -79,7 +79,7 @@ func (c *Client) ListOrganizationMembersById(id string, page int, limit int) (*[
 }
 
 func (c *Client) AddOrganizationMemberById(id string, userId string) (*hcloud.OrganizationMember, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Post(c.getEndpoint()+"/v1/organization/"+id+"/member/"+userId, hcloud.OrganizationMember{Roles: []string{"admin"}})
+	_, body, erro := c.client.Post(c.getEndpoint()+"/v1/organization/"+id+"/member/"+userId, hcloud.OrganizationMember{Roles: []string{"admin"}})
 	if erro != nil {
 		return nil, erro
 	}
@@ -94,14 +94,10 @@ func (c *Client) AddOrganizationMemberById(id string, userId string) (*hcloud.Or
 }
 
 func (c *Client) DeleteOrganizationMemberById(id string) *hcloud.ErrorResponse {
-	_, _, erro := c.HcloudClient.Delete(c.getEndpoint() + "/v1/organization/member/" + id)
+	_, _, erro := c.client.Delete(c.getEndpoint() + "/v1/organization/member/" + id)
 	if erro != nil {
 		return erro
 	}
 
 	return nil
-}
-
-func (c *Client) getEndpoint() string {
-	return c.HcloudClient.Config.Api + "/api/account"
 }

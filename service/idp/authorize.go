@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Client) Authorize() (*hcloud.User, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Post(c.getEndpoint()+"/v1/authenticate", nil)
+	_, body, erro := c.client.Post(c.getEndpoint()+"/v1/authorize", nil)
 	if erro != nil {
 		return nil, erro
 	}

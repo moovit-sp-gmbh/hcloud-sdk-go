@@ -1,123 +1,26 @@
 package hcloud
 
 import (
-	"encoding/json"
-	"io"
 	"net/http"
-	"strings"
 )
 
+type ClientConfig struct {
+	Api   string
+	Token string
+}
 type Client struct {
-	Config     *Config
-	HttpClient *http.Client
-	Token      string
+	config     *ClientConfig
+	httpClient *http.Client
 }
 
-// ErrorReponse holds a code and a message parsed from an error resposne from the helmut.cloud platform
-type ErrorResponse struct {
-	Code    int    `json:"status"`
-	Message string `json:"message"`
+func New(config *ClientConfig) *Client {
+	return &Client{config: config, httpClient: &http.Client{}}
 }
 
-func parseError(body []byte) *ErrorResponse {
-	errResponse := &ErrorResponse{}
-	err := json.Unmarshal(body, errResponse)
-	if err != nil {
-		return &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-	return errResponse
+func (c *Client) SetApi(api string) {
+	c.config.Api = api
 }
 
-func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	if c.Token != "" {
-		req.Header.Set("Authorization", c.Token)
-	}
-
-	resp, err := c.HttpClient.Do(req)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	if resp.StatusCode >= 400 {
-		return nil, nil, parseError(body)
-	}
-
-	return resp, body, nil
-}
-
-func (c *Client) Post(url string, payload interface{}) (*http.Response, []byte, *ErrorResponse) {
-	var b []byte
-	var err error
-	if payload != nil {
-		b, err = json.Marshal(payload)
-		if err != nil {
-			return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-		}
-	}
-
-	req, err := http.NewRequest("POST", url, strings.NewReader(string(b)))
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	req.Header.Set("Content-Type", "application/json")
-	if c.Token != "" {
-		req.Header.Set("Authorization", c.Token)
-	}
-
-	resp, err := c.HttpClient.Do(req)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	if resp.StatusCode >= 400 {
-		return nil, nil, parseError(body)
-	}
-
-	return resp, body, nil
-}
-
-func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
-	req, err := http.NewRequest("DELETE", url, nil)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	if c.Token != "" {
-		req.Header.Set("Authorization", c.Token)
-	}
-
-	resp, err := c.HttpClient.Do(req)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
-	}
-
-	if resp.StatusCode >= 400 {
-		return nil, nil, parseError(body)
-	}
-
-	return resp, body, nil
+func (c *Client) SetToken(token string) {
+	c.config.Token = token
 }
