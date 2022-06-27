@@ -7,7 +7,7 @@ import (
 )
 
 func (c *Client) Version() (*hcloud.Version, *hcloud.ErrorResponse) {
-	_, body, erro := c.HcloudClient.Get(c.getEndpoint() + "/v1/version")
+	_, body, erro := c.client.Get(c.getEndpoint() + "/v1/version")
 
 	if erro != nil {
 		return nil, erro

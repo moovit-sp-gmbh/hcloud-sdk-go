@@ -1,22 +1,15 @@
 package idp
 
-import (
-	"net/http"
+import "github.com/moovit-sp-gmbh/hcloud-sdk-go"
 
-	"github.com/moovit-sp-gmbh/hcloud-sdk-go"
-)
-
-// Client is a representative of the idp Client
 type Client struct {
-	HcloudClient *hcloud.Client
+	client *hcloud.Client
 }
 
-var httpClient *http.Client
-
-func NewFromConfig(config *hcloud.Config) *Client {
-	return &Client{HcloudClient: &hcloud.Client{Config: config, Token: config.Token, HttpClient: &http.Client{}}}
+func New(client *hcloud.Client) *Client {
+	return &Client{client: client}
 }
 
-func (c *Client) SetToken(token string) {
-	c.HcloudClient.Token = token
+func (c *Client) getEndpoint() string {
+	return c.client.GetEndpoint("/api/account")
 }
