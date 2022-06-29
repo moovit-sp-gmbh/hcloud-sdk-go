@@ -1,11 +1,15 @@
 package hcloud
 
 import (
+	_ "embed"
 	"encoding/json"
 	"io"
 	"net/http"
 	"strings"
 )
+
+//go:embed version.txt
+var version string
 
 func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
 	req, err := http.NewRequest("GET", url, nil)
@@ -108,5 +112,5 @@ func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
 }
 
 func setGlobalHeaders(req *http.Request) {
-	req.Header.Set("User-Agent", "hcloud-sdk-go")
+	req.Header.Set("User-Agent", "hcloud-sdk-go/v"+version)
 }
