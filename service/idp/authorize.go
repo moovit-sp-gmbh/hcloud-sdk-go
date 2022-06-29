@@ -15,7 +15,7 @@ func (c *Client) Authorize() (*hcloud.User, *hcloud.ErrorResponse) {
 	user := &hcloud.User{}
 	err := json.Unmarshal(body, user)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return user, nil

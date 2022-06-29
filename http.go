@@ -10,7 +10,7 @@ import (
 func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	if c.config.Token != "" {
@@ -19,13 +19,13 @@ func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	if resp.StatusCode >= 400 {
@@ -41,13 +41,13 @@ func (c *Client) Post(url string, payload interface{}) (*http.Response, []byte, 
 	if payload != nil {
 		b, err = json.Marshal(payload)
 		if err != nil {
-			return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+			return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 		}
 	}
 
 	req, err := http.NewRequest("POST", url, strings.NewReader(string(b)))
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -57,13 +57,13 @@ func (c *Client) Post(url string, payload interface{}) (*http.Response, []byte, 
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	if resp.StatusCode >= 400 {
@@ -76,7 +76,7 @@ func (c *Client) Post(url string, payload interface{}) (*http.Response, []byte, 
 func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
 	req, err := http.NewRequest("DELETE", url, nil)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	if c.config.Token != "" {
@@ -85,13 +85,13 @@ func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, nil, &ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
 	if resp.StatusCode >= 400 {

@@ -16,7 +16,7 @@ func (c *Client) Version() (*hcloud.Version, *hcloud.ErrorResponse) {
 	v := &hcloud.Version{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil

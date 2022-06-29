@@ -17,7 +17,7 @@ func (c *Client) Register(name string, company string, email string, password st
 	user := &hcloud.User{}
 	err := json.Unmarshal(body, user)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return user, nil

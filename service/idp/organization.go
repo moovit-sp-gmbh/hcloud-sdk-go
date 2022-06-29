@@ -16,7 +16,7 @@ func (c *Client) ListOrganizations(page int, limit int) (*[]hcloud.Organization,
 	v := &[]hcloud.Organization{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil
@@ -31,7 +31,7 @@ func (c *Client) CreateOrganization(name string, company string) (*hcloud.Organi
 	v := &hcloud.Organization{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil
@@ -46,7 +46,7 @@ func (c *Client) GetOrganizationById(id string) (*hcloud.Organization, *hcloud.E
 	v := &hcloud.Organization{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil
@@ -72,7 +72,7 @@ func (c *Client) ListOrganizationMembersById(id string, page int, limit int) (*[
 	v := &[]hcloud.OrganizationMember{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil
@@ -87,7 +87,7 @@ func (c *Client) AddOrganizationMemberById(id string, userId string) (*hcloud.Or
 	v := &hcloud.OrganizationMember{}
 	err := json.Unmarshal(body, v)
 	if err != nil {
-		return nil, &hcloud.ErrorResponse{Code: -1, Message: err.Error()}
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
 	}
 
 	return v, nil
