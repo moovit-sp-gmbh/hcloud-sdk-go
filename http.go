@@ -13,6 +13,8 @@ func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
 		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
+	setGlobalHeaders(req)
+
 	if c.config.Token != "" {
 		req.Header.Set("Authorization", c.config.Token)
 	}
@@ -50,6 +52,8 @@ func (c *Client) Post(url string, payload interface{}) (*http.Response, []byte, 
 		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
+	setGlobalHeaders(req)
+
 	req.Header.Set("Content-Type", "application/json")
 	if c.config.Token != "" {
 		req.Header.Set("Authorization", c.config.Token)
@@ -79,6 +83,8 @@ func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
 		return nil, nil, &ErrorResponse{Code: "000.000.000", Error: "sdk.http", Message: err.Error()}
 	}
 
+	setGlobalHeaders(req)
+
 	if c.config.Token != "" {
 		req.Header.Set("Authorization", c.config.Token)
 	}
@@ -99,4 +105,8 @@ func (c *Client) Delete(url string) (*http.Response, []byte, *ErrorResponse) {
 	}
 
 	return resp, body, nil
+}
+
+func setGlobalHeaders(req *http.Request) {
+	req.Header.Set("User-Agent", "hcloud-sdk-go")
 }
