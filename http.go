@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-//go:embed version.txt
+//go:embed .version
 var version string
 
 func (c *Client) Get(url string) (*http.Response, []byte, *ErrorResponse) {
