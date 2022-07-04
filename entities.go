@@ -3,6 +3,7 @@ package hcloud
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 type Token struct {
@@ -29,7 +30,7 @@ type Version struct {
 }
 
 func (v Version) String() string {
-	return fmt.Sprintf("%s", v.Version)
+	return fmt.Sprintf("%s\n", v.Version)
 }
 
 type Organization struct {
@@ -72,4 +73,18 @@ type Register struct {
 
 func (r Register) String() string {
 	return fmt.Sprintf("Name: %s\nCompany: %s\nEmail: %s\nPassword: %s\n", r.Name, r.Company, r.Email, r.Password)
+}
+
+type AuditLog struct {
+	Origin    string      `json:"origin"`
+	Level     string      `json:"level"`
+	Event     string      `json:"event"`
+	Type      string      `json:"type"`
+	User      string      `json:"user"`
+	Timestamp int64       `json:"timestamp"`
+	Message   interface{} `json:"message"`
+}
+
+func (a AuditLog) String() string {
+	return fmt.Sprintf("Origin:     %s\nLevel:      %s\nEvent:      %s\nType:       %s\nUser:       %s\nTime:       %s\nMessage:    %s\n", a.Origin, a.Level, a.Event, a.Type, a.User, time.Unix(a.Timestamp, 0), a.Message)
 }

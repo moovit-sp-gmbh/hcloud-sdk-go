@@ -1,4 +1,4 @@
-package idp
+package auditor
 
 import (
 	"encoding/json"
