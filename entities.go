@@ -88,3 +88,71 @@ type AuditLog struct {
 func (a AuditLog) String() string {
 	return fmt.Sprintf("Origin:     %s\nLevel:      %s\nEvent:      %s\nType:       %s\nUser:       %s\nTime:       %s\nMessage:    %s\n", a.Origin, a.Level, a.Event, a.Type, a.User, time.Unix(a.Timestamp, 0), a.Message)
 }
+
+type App struct {
+	Id            string       `json:"_id,omitempty"`
+	Name          string       `json:"name,omitempty"`
+	Permissions   []Permission `json:"permissions,omitempty"`
+	OrgnizationId string       `json:"organizationId,omitempty"`
+	CreatorId     string       `json:"creatorId,omitempty"`
+	CreateDate    int          `json:"createDate,omitempty"` // UTC+0 unix timestamp
+}
+
+func (a App) String() string {
+	return fmt.Sprintf("Id:              %s\nName:            %s\nPermissions:     \n%s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", a.Id, a.Name, a.Permissions, a.OrgnizationId, a.CreatorId, time.Unix(int64(a.CreateDate), 0))
+}
+
+type AppPermission string
+
+const (
+	NONE    AppPermission = "NONE"
+	READ    AppPermission = "READ"
+	EXECUTE AppPermission = "EXECUTE"
+	WRITE   AppPermission = "WRITE"
+	MANAGE  AppPermission = "MANAGE"
+	OWNER   AppPermission = "OWNER"
+)
+
+type Permission struct {
+	UserId     string        `json:"userId,omitempty"`
+	Permission AppPermission `json:"permission,omitempty"`
+}
+
+func (p Permission) String() string {
+	return fmt.Sprintf("     UserId:         %s\n      Permissions:    %s\n", p.UserId, p.Permission)
+}
+
+type Event struct {
+	Id            string `json:"_id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	AppId         string `json:"appId,omitempty"`
+	OrgnizationId string `json:"organizationId,omitempty"`
+	CreatorId     string `json:"creatorId,omitempty"`
+	CreateDate    int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+}
+
+func (e Event) String() string {
+	return fmt.Sprintf("Id:              %s\nName:            %s\nAppId:           %s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", e.Id, e.Name, e.AppId, e.OrgnizationId, e.CreatorId, time.Unix(int64(e.CreateDate), 0))
+}
+
+type Stream struct {
+	Id            string `json:"_id,omitempty"`
+	Name          string `json:"name,omitempty"`
+	EventId       string `json:"eventId,omitempty"`
+	AppId         string `json:"appId,omitempty"`
+	OrgnizationId string `json:"organizationId,omitempty"`
+	CreatorId     string `json:"creatorId,omitempty"`
+	CreateDate    int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+}
+
+func (s Stream) String() string {
+	return fmt.Sprintf("Id:              %s\nName:            %s\nEventId:         %s\nAppId:           %s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", s.Id, s.Name, s.EventId, s.AppId, s.OrgnizationId, s.CreatorId, time.Unix(int64(s.CreateDate), 0))
+}
+
+type StreamExecutionRequest struct {
+	StreamId      string `json:"streamId"`
+	Target        string `json:"target"`
+	Data          string `json:"data"`
+	Timeout       int    `json:"timeout"`
+	WaitForResult bool   `json:"waitForResult"`
+}
