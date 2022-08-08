@@ -150,7 +150,14 @@ func (s Stream) String() string {
 }
 
 type StreamExecutionRequest struct {
-	StreamId      string `json:"streamId"`
+	Target        string `json:"target"`
+	Data          string `json:"data"`
+	Timeout       int    `json:"timeout"`
+	WaitForResult bool   `json:"waitForResult"`
+}
+
+type EventExecutionRequest struct {
+	EventName     string `json:"eventName"`
 	Target        string `json:"target"`
 	Data          string `json:"data"`
 	Timeout       int    `json:"timeout"`
