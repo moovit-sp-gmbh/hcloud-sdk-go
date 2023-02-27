@@ -7,7 +7,7 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go"
 )
 
-func (c *Client) ListOrganizations(page int, limit int) (*[]hcloud.Organization, *hcloud.ErrorResponse) {
+func (c *Client) ListOrganizations(limit int, page int) (*[]hcloud.Organization, *hcloud.ErrorResponse) {
 	_, body, erro := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization?page=%d&limit=%d", page, limit))
 	if erro != nil {
 		return nil, erro
@@ -61,13 +61,11 @@ func (c *Client) DeleteOrganizationById(id string) *hcloud.ErrorResponse {
 	return nil
 }
 
-func (c *Client) ListOrganizationMembersById(id string, page int, limit int) (*[]hcloud.OrganizationMember, *hcloud.ErrorResponse) {
+func (c *Client) ListOrganizationMembersById(id string, limit int, page int) (*[]hcloud.OrganizationMember, *hcloud.ErrorResponse) {
 	_, body, erro := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/organization/"+id+"/member?page=%d&limit=%d", page, limit))
 	if erro != nil {
 		return nil, erro
 	}
-
-	fmt.Print(string(body))
 
 	v := &[]hcloud.OrganizationMember{}
 	err := json.Unmarshal(body, v)
@@ -78,8 +76,8 @@ func (c *Client) ListOrganizationMembersById(id string, page int, limit int) (*[
 	return v, nil
 }
 
-func (c *Client) AddOrganizationMemberById(id string, userId string) (*hcloud.OrganizationMember, *hcloud.ErrorResponse) {
-	_, body, erro := c.client.Post(c.getEndpoint()+"/v1/organization/"+id+"/member/"+userId, hcloud.OrganizationMember{Roles: []string{"admin"}})
+func (c *Client) AddOrganizationMemberById(id string, email string, permission hcloud.OrganizationPermission) (*hcloud.OrganizationMember, *hcloud.ErrorResponse) {
+	_, body, erro := c.client.Post(c.getEndpoint()+"/v1/organization/"+id+"/member", hcloud.AddOrganizationMember{Email: email, Permission: permission})
 	if erro != nil {
 		return nil, erro
 	}

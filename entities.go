@@ -2,27 +2,25 @@ package hcloud
 
 import (
 	"fmt"
-	"strings"
-	"time"
 )
 
 type Token struct {
 	Token string `json:"token"`
 }
 
-func (t Token) String() string {
-	return fmt.Sprintf("%s", t.Token)
-}
-
 type User struct {
-	Id      string `json:"_id,omitempty"`
-	Name    string `json:"name,omitempty"`
-	Email   string `json:"email,omitempty"`
-	Company string `json:"company,omitempty"`
+	Id                   string `json:"_id,omitempty"`
+	Name                 string `json:"name,omitempty"`
+	Email                string `json:"email,omitempty"`
+	Company              string `json:"company,omitempty"`
+	ActiveOrganizationId string `json:"activeOrganizationId,omitempty"`
 }
 
-func (u User) String() string {
-	return fmt.Sprintf("Id:      %s\nName:    %s\nEmail:   %s\nCompany: %s\n", u.Id, u.Name, u.Email, u.Company)
+type PatchUser struct {
+	Name                 string `json:"name,omitempty"`
+	Email                string `json:"email,omitempty"`
+	Company              string `json:"company,omitempty"`
+	ActiveOrganizationId string `json:"activeOrganizationId,omitempty"`
 }
 
 type Version struct {
@@ -36,32 +34,35 @@ func (v Version) String() string {
 type Organization struct {
 	Id      string `json:"_id,omitempty"`
 	Name    string `json:"name,omitempty"`
-	Creator User   `json:"creator,omitempty"`
+	Creator *User  `json:"creator,omitempty"`
 	Company string `json:"company,omitempty"`
 }
 
-func (o Organization) String() string {
-	return fmt.Sprintf("Id:      %s\nName:    %s\nCreator:\n  Id:      %s\n  Name:    %s\n  Email:   %s\n  Company: %s\nCompany: %s\n", o.Id, o.Name, o.Creator.Id, o.Creator.Name, o.Creator.Email, o.Creator.Company, o.Company)
-}
-
 type OrganizationMember struct {
-	Id             string   `json:"_id,omitempty"`
-	OrganizationId string   `json:"organizationId,omitempty"`
-	User           User     `json:"userDbRef,omitempty"`
-	Roles          []string `json:"roles,omitempty"`
+	Id             string                 `json:"_id,omitempty"`
+	OrganizationId string                 `json:"organizationId,omitempty"`
+	User           *User                  `json:"user,omitempty"`
+	Permission     OrganizationPermission `json:"permission,omitempty"`
 }
 
-func (o OrganizationMember) String() string {
-	return fmt.Sprintf("Id:             %s\nOrganizationId: %s\nCreator:\n  Id:      %s\n  Name:    %s\n  Email:   %s\n  Company: %s\nRoles: %s\n", o.Id, o.OrganizationId, o.User.Id, o.User.Name, o.User.Email, o.User.Company, strings.Join(o.Roles, ","))
+type AddOrganizationMember struct {
+	Email      string                 `json:"email,omitempty"`
+	Permission OrganizationPermission `json:"permission,omitempty"`
 }
+
+type OrganizationPermission string
+
+const (
+	ORGANIZATION_READ   OrganizationPermission = "READ"
+	ORGANIZATION_MANAGE OrganizationPermission = "MANAGE"
+	ORGANIZATION_ADMIN  OrganizationPermission = "ADMIN"
+	ORGANIZATION_OWNER  OrganizationPermission = "OWNER"
+)
 
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-}
-
-func (l Login) String() string {
-	return fmt.Sprintf("Email: %s, Password: %s\n", l.Email, l.Password)
+	Totp     string `json:"totp"`
 }
 
 type Register struct {
@@ -69,10 +70,6 @@ type Register struct {
 	Company  string `json:"company,omitempty"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
-}
-
-func (r Register) String() string {
-	return fmt.Sprintf("Name: %s\nCompany: %s\nEmail: %s\nPassword: %s\n", r.Name, r.Company, r.Email, r.Password)
 }
 
 type AuditLog struct {
@@ -85,21 +82,13 @@ type AuditLog struct {
 	Message   interface{} `json:"message"`
 }
 
-func (a AuditLog) String() string {
-	return fmt.Sprintf("Origin:     %s\nLevel:      %s\nEvent:      %s\nType:       %s\nUser:       %s\nTime:       %s\nMessage:    %s\n", a.Origin, a.Level, a.Event, a.Type, a.User, time.Unix(a.Timestamp, 0), a.Message)
-}
-
 type App struct {
-	Id            string       `json:"_id,omitempty"`
-	Name          string       `json:"name,omitempty"`
-	Permissions   []Permission `json:"permissions,omitempty"`
-	OrgnizationId string       `json:"organizationId,omitempty"`
-	CreatorId     string       `json:"creatorId,omitempty"`
-	CreateDate    int          `json:"createDate,omitempty"` // UTC+0 unix timestamp
-}
-
-func (a App) String() string {
-	return fmt.Sprintf("Id:              %s\nName:            %s\nPermissions:     \n%s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", a.Id, a.Name, a.Permissions, a.OrgnizationId, a.CreatorId, time.Unix(int64(a.CreateDate), 0))
+	Id             string       `json:"_id,omitempty"`
+	Name           string       `json:"name,omitempty"`
+	Permissions    []Permission `json:"permissions,omitempty"`
+	OrganizationId string       `json:"organizationId,omitempty"`
+	CreatorId      string       `json:"creatorId,omitempty"`
+	CreateDate     int          `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
 type AppPermission string
@@ -123,43 +112,111 @@ func (p Permission) String() string {
 }
 
 type Event struct {
-	Id            string `json:"_id,omitempty"`
-	Name          string `json:"name,omitempty"`
-	AppId         string `json:"appId,omitempty"`
-	OrgnizationId string `json:"organizationId,omitempty"`
-	CreatorId     string `json:"creatorId,omitempty"`
-	CreateDate    int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
-}
-
-func (e Event) String() string {
-	return fmt.Sprintf("Id:              %s\nName:            %s\nAppId:           %s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", e.Id, e.Name, e.AppId, e.OrgnizationId, e.CreatorId, time.Unix(int64(e.CreateDate), 0))
+	Id             string `json:"_id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	AppId          string `json:"appId,omitempty"`
+	OrganizationId string `json:"organizationId,omitempty"`
+	CreatorId      string `json:"creatorId,omitempty"`
+	CreateDate     int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
 type Stream struct {
-	Id            string `json:"_id,omitempty"`
-	Name          string `json:"name,omitempty"`
-	EventId       string `json:"eventId,omitempty"`
-	AppId         string `json:"appId,omitempty"`
-	OrgnizationId string `json:"organizationId,omitempty"`
-	CreatorId     string `json:"creatorId,omitempty"`
-	CreateDate    int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	Id             string `json:"_id,omitempty"`
+	Name           string `json:"name,omitempty"`
+	EventId        string `json:"eventId,omitempty"`
+	AppId          string `json:"appId,omitempty"`
+	Order          int    `json:"order,omitempty"`
+	OrganizationId string `json:"organizationId,omitempty"`
+	CreatorId      string `json:"creatorId,omitempty"`
+	CreateDate     int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
-func (s Stream) String() string {
-	return fmt.Sprintf("Id:              %s\nName:            %s\nEventId:         %s\nAppId:           %s\nOrganizationId:  %s\nCreatorId:       %s\nCreateDate:      %s\n", s.Id, s.Name, s.EventId, s.AppId, s.OrgnizationId, s.CreatorId, time.Unix(int64(s.CreateDate), 0))
+type StreamOrder struct {
+	StreamId string `json:"streamId"`
+	Order    int    `json:"order"`
 }
 
 type StreamExecutionRequest struct {
-	Target        string `json:"target"`
-	Data          string `json:"data"`
-	Timeout       int    `json:"timeout"`
-	WaitForResult bool   `json:"waitForResult"`
+	Target        string                 `json:"target"`
+	Payload       StreamExecutionPayload `json:"payload"`
+	Timeout       int                    `json:"timeout"`
+	WaitForResult bool                   `json:"waitForResult"`
+}
+
+type StreamExecutionPayload struct {
+	Type string `json:"type"`
+	Data string `json:"data"`
 }
 
 type EventExecutionRequest struct {
 	EventName     string `json:"eventName"`
 	Target        string `json:"target"`
-	Data          string `json:"data"`
-	Timeout       int    `json:"timeout"`
-	WaitForResult bool   `json:"waitForResult"`
+	Payload       StreamExecutionPayload
+	Timeout       int  `json:"timeout"`
+	WaitForResult bool `json:"waitForResult"`
+}
+
+type Webhook struct {
+	Id              string                 `json:"_id,omitempty"`
+	Name            string                 `json:"name,omitempty"`
+	Url             string                 `json:"url,omitempty"`
+	Token           string                 `json:"token,omitempty"`
+	Target          string                 `json:"target"`
+	SecurityHeaders WebhookSecurityHeaders `json:"securityHeaders,omitempty"`
+	AppId           string                 `json:"appId,omitempty"`
+	EventId         string                 `json:"eventId,omitempty"`
+	OrganizationId  string                 `json:"organizationId,omitempty"`
+	CreatorId       string                 `json:"creatorId,omitempty"`
+	CreateDate      int                    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	ModifyDate      int                    `json:"modifyDate,omitempty"` // UTC+0 unix timestamp
+}
+
+type WebhookCreation struct {
+	Name            string                 `json:"name"`
+	Token           string                 `json:"token"`
+	EventId         string                 `json:"eventId"`
+	AppId           string                 `json:"appId"`
+	Target          string                 `json:"target"`
+	SecurityHeaders WebhookSecurityHeaders `json:"securityHeaders,omitempty"`
+}
+
+type WebhookSecurityHeaders map[string]string
+
+type WebhookLog struct {
+	Id                 string      `json:"_id,omitempty"`
+	WebhookId          string      `json:"webhookId,omitempty"`
+	AppId              string      `json:"appId,omitempty"`
+	EventId            string      `json:"eventId,omitempty"`
+	OrganizationId     string      `json:"organizationId,omitempty"`
+	SourceIP           string      `json:"sourceIp,omitempty"`
+	CompleteHeader     interface{} `json:"completeHeader,omitempty"`
+	RequestBody        interface{} `json:"requestBody,omitempty"`
+	ResponseBody       interface{} `json:"responseBody,omitempty"`
+	ResponseStatusCode int         `json:"responseStatusCode,omitempty"`
+	Timestamp          int         `json:"timestamp,omitempty"`  // UTC+0 unix timestamp
+	CreateDate         int         `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	ModifyDate         int         `json:"modifyDate,omitempty"` // UTC+0 unix timestamp
+}
+
+type Cronjob struct {
+	Id               string          `json:"_id,omitempty"`
+	Enabled          bool            `json:"enabled,omitempty"`
+	Name             string          `json:"name,omitempty"`
+	Expression       string          `json:"expression,omitempty"`
+	Target           string          `json:"targetUrl,omitempty"`
+	Method           string          `json:"httpMethod,omitempty"`
+	AcceptInvalidSSL bool            `json:"acceptInvalidSSL,omitempty"`
+	Timezone         string          `json:"timezone,omitempty"`
+	Creator          string          `json:"creatorId,omitempty"`
+	CreateDate       int             `json:"createDate,omitempty"`
+	ModifyDate       int             `json:"modifyDate,omitempty"`
+	AppId            string          `json:"appId,omitempty"`
+	OrganizationId   string          `json:"organizationId,omitempty"`
+	Headers          []CronjobHeader `json:"headers,omitempty"`
+	Body             string          `json:"body,omitempty"`
+}
+
+type CronjobHeader struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }

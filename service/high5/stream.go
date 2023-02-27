@@ -64,3 +64,19 @@ func (c *Client) CreateStream(name string, eventId string) (*hcloud.Stream, *hcl
 
 	return e, nil
 }
+
+func (c *Client) ChangeStreamOrder(eventId string, streamOrder []hcloud.StreamOrder) (*[]hcloud.Stream, *hcloud.ErrorResponse) {
+	_, body, erro := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/stream/%s/order", eventId), streamOrder)
+
+	if erro != nil {
+		return nil, erro
+	}
+
+	e := &[]hcloud.Stream{}
+	err := json.Unmarshal(body, e)
+	if err != nil {
+		return nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}
+	}
+
+	return e, nil
+}

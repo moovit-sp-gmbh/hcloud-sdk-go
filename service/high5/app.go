@@ -46,7 +46,6 @@ func (c *Client) CreateApp(name string) (*hcloud.App, *hcloud.ErrorResponse) {
 		return nil, erro
 	}
 
-	fmt.Print(string(body))
 	a := &hcloud.App{}
 	err := json.Unmarshal(body, a)
 
