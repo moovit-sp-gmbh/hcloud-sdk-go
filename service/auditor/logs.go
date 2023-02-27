@@ -6,9 +6,10 @@ import (
 	"strconv"
 
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go"
+	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (c *Client) GetAuditLogs(organizationId string, limit int, page int) (*[]hcloud.AuditLog, int, *hcloud.ErrorResponse) {
+func (c *Client) GetAuditLogs(organizationId string, limit int, page int) (*[]entities.AuditLog, int, *hcloud.ErrorResponse) {
 	url := fmt.Sprintf("%s/v1/logs?limit=%d&page=%d", c.getEndpoint(), limit, page)
 
 	if organizationId != "" {
@@ -20,7 +21,7 @@ func (c *Client) GetAuditLogs(organizationId string, limit int, page int) (*[]hc
 		return nil, -1, erro
 	}
 
-	logs := &[]hcloud.AuditLog{}
+	logs := &[]entities.AuditLog{}
 	err := json.Unmarshal(body, logs)
 	if err != nil {
 		return nil, -1, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err.Error()}

@@ -4,21 +4,21 @@ import (
 	"net/http"
 )
 
-type ClientConfig struct {
-	Api   string
-	Token string
+type Config struct {
+	Server string
+	Token  string
 }
 type Client struct {
-	config     *ClientConfig
+	config     *Config
 	httpClient *http.Client
 }
 
-func New(config *ClientConfig) *Client {
+func New(config *Config) *Client {
 	return &Client{config: config, httpClient: &http.Client{}}
 }
 
-func (c *Client) SetApi(api string) {
-	c.config.Api = api
+func (c *Client) SetServer(server string) {
+	c.config.Server = server
 }
 
 func (c *Client) SetToken(token string) {

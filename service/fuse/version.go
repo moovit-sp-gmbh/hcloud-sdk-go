@@ -1,4 +1,4 @@
-package idp
+package fuse
 
 import (
 	"encoding/json"
