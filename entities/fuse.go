@@ -40,6 +40,36 @@ type Cronjob struct {
 	Body             string            `json:"body,omitempty"`
 }
 
+type ReducedOrganization struct {
+	Id   string `json:"_id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+type ReducedUser struct {
+	Id   string `json:"_id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+type CronjobLogCreation struct {
+	StatusCode int             `json:"statusCode,omitempty"`
+	Headers    []CronjobHeader `json:"headers,omitempty"`
+	Body       string          `json:"body,omitempty"`
+}
+
+type CronjobLog struct {
+	Id           string              `json:"_id,omitempty"`
+	CronjobId    string              `json:"cronjobId,omitempty"`
+	StatusCode   int                 `json:"statusCode,omitempty"`
+	Organization ReducedOrganization `json:"organization,omitempty"`
+	Creator      ReducedUser         `json:"creator,omitempty"`
+	CreatorId    string              `json:"creatorId,omitempty"`
+	App          string              `json:"app,omitempty"`
+	Headers      []CronjobHeader     `json:"headers,omitempty"`
+	Body         string              `json:"body,omitempty"`
+	CreateDate   int                 `json:"createDate,omitempty"`
+	ModifyDate   int                 `json:"modifyDate,omitempty"`
+}
+
 type CronjobHttpMethod string
 
 const (
