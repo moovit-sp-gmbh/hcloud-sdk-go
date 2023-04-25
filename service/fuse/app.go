@@ -30,19 +30,19 @@ func (c *Client) GetApps(organization string, limit int, page int) (*[]entities.
 	return v, entities.Total(total), resp, nil
 }
 
-func (c *Client) GetApp(organization string, app string) (*[]entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) GetApp(organization string, app string) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s", organization, app))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &[]entities.FuseApp{}
-	err1 := json.Unmarshal(body, v)
+	fuseApp := &entities.FuseApp{}
+	err1 := json.Unmarshal(body, fuseApp)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
 	}
 
-	return v, resp, nil
+	return fuseApp, resp, nil
 }
 
 func (c *Client) CreateApp(organization string, app *entities.AppCreation) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
