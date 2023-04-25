@@ -84,34 +84,34 @@ func (c *Client) GetJobs(organization string, app string, limit int, page int) (
 	return v, entities.Total(total), resp, nil
 }
 
-func (c *Client) GetJobById(organization string, app string, jobId string) (*[]entities.Cronjob, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) GetJobById(organization string, app string, jobId string) (*entities.Cronjob, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/jobs/%s", organization, app, jobId))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &[]entities.Cronjob{}
-	err1 := json.Unmarshal(body, v)
+	fuseApp := &entities.Cronjob{}
+	err1 := json.Unmarshal(body, fuseApp)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
 	}
 
-	return v, resp, nil
+	return fuseApp, resp, nil
 }
 
-func (c *Client) GetNextJobExecutions(organization string, app string, jobId string, amount int) (*[]entities.Cronjob, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) GetNextJobExecutions(organization string, app string, jobId string, amount int) (*[]int64, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/jobs/%s/next?number=%d", organization, app, jobId, amount))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &[]entities.Cronjob{}
-	err1 := json.Unmarshal(body, v)
+	nextExecutions := &[]int64{}
+	err1 := json.Unmarshal([]byte(body), &nextExecutions)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
 	}
 
-	return v, resp, nil
+	return nextExecutions, resp, nil
 }
 
 // GetAll requests all existing jobs form the backend
