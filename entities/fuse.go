@@ -22,32 +22,22 @@ type CronjobCreation struct {
 }
 
 type Cronjob struct {
-	Id               string            `json:"_id,omitempty"`
-	Enabled          bool              `json:"enabled,omitempty"`
-	Name             string            `json:"name,omitempty"`
-	Description      string            `json:"description,omitempty"`
-	Expression       string            `json:"expression,omitempty"`
-	Target           string            `json:"targetUrl,omitempty"`
-	Method           CronjobHttpMethod `json:"httpMethod,omitempty"`
-	AcceptInvalidSSL bool              `json:"acceptInvalidSSL,omitempty"`
-	Timezone         string            `json:"timezone,omitempty"`
-	Creator          string            `json:"creatorId,omitempty"`
-	CreateDate       int               `json:"createDate,omitempty"`
-	ModifyDate       int               `json:"modifyDate,omitempty"`
-	AppName          string            `json:"appName,omitempty"`
-	OrganizationName string            `json:"organizationName,omitempty"`
-	Headers          []CronjobHeader   `json:"headers,omitempty"`
-	Body             string            `json:"body,omitempty"`
-}
-
-type ReducedOrganization struct {
-	Id   string `json:"_id,omitempty"`
-	Name string `json:"name,omitempty"`
-}
-
-type ReducedUser struct {
-	Id   string `json:"_id,omitempty"`
-	Name string `json:"name,omitempty"`
+	Id               string              `json:"_id,omitempty"`
+	Enabled          bool                `json:"enabled,omitempty"`
+	Name             string              `json:"name,omitempty"`
+	Description      string              `json:"description,omitempty"`
+	Expression       string              `json:"expression,omitempty"`
+	Target           string              `json:"targetUrl,omitempty"`
+	Method           CronjobHttpMethod   `json:"httpMethod,omitempty"`
+	AcceptInvalidSSL bool                `json:"acceptInvalidSSL,omitempty"`
+	Timezone         string              `json:"timezone,omitempty"`
+	Creator          ReducedUser         `json:"creator,omitempty"`
+	CreateDate       int                 `json:"createDate,omitempty"`
+	ModifyDate       int                 `json:"modifyDate,omitempty"`
+	AppName          string              `json:"appName,omitempty"`
+	Organization     ReducedOrganization `json:"organization,omitempty"`
+	Headers          []CronjobHeader     `json:"headers,omitempty"`
+	Body             string              `json:"body,omitempty"`
 }
 
 type CronjobLogCreation struct {
@@ -62,7 +52,6 @@ type CronjobLog struct {
 	StatusCode   int                 `json:"statusCode,omitempty"`
 	Organization ReducedOrganization `json:"organization,omitempty"`
 	Creator      ReducedUser         `json:"creator,omitempty"`
-	CreatorId    string              `json:"creatorId,omitempty"`
 	App          string              `json:"app,omitempty"`
 	Headers      []CronjobHeader     `json:"headers,omitempty"`
 	Body         string              `json:"body,omitempty"`

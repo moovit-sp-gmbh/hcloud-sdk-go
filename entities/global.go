@@ -39,12 +39,12 @@ type AppCreation struct {
 	Name string `json:"name"`
 }
 type App struct {
-	Id             string       `json:"_id,omitempty"`
-	Name           string       `json:"name,omitempty"`
-	Permissions    []Permission `json:"permissions,omitempty"`
-	OrganizationId string       `json:"organizationId,omitempty"`
-	CreatorId      string       `json:"creatorId,omitempty"`
-	CreateDate     int          `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	Id           string              `json:"_id,omitempty"`
+	Name         string              `json:"name,omitempty"`
+	Permissions  []Permission        `json:"permissions,omitempty"`
+	Organization ReducedOrganization `json:"organization,omitempty"`
+	Creator      ReducedUser         `json:"creator,omitempty"`
+	CreateDate   int                 `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
 type AppPermission string
