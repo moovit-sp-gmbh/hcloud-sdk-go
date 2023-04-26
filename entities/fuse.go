@@ -34,8 +34,8 @@ type Cronjob struct {
 	Creator          string            `json:"creatorId,omitempty"`
 	CreateDate       int               `json:"createDate,omitempty"`
 	ModifyDate       int               `json:"modifyDate,omitempty"`
-	AppId            string            `json:"appId,omitempty"`
-	OrganizationId   string            `json:"organizationId,omitempty"`
+	AppName          string            `json:"appName,omitempty"`
+	OrganizationName string            `json:"organizationName,omitempty"`
 	Headers          []CronjobHeader   `json:"headers,omitempty"`
 	Body             string            `json:"body,omitempty"`
 }
