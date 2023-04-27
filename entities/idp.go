@@ -191,7 +191,6 @@ type OAuthApplicationClientSecret struct {
 	Id         string `json:"_id"`
 	Name       string `json:"name"`
 	Secret     string `json:"secret"`
-	Uuid       string `json:"uuid"`
 	CreatorId  string `json:"creatorId"`
 	Used       bool   `json:"used"`
 	CreateDate int    `json:"createDate"`
