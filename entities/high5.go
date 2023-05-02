@@ -9,12 +9,12 @@ type EventCreation struct {
 }
 
 type Event struct {
-	Id             string `json:"_id,omitempty"`
-	Name           string `json:"name,omitempty"`
-	AppId          string `json:"appId,omitempty"`
-	OrganizationId string `json:"organizationId,omitempty"`
-	CreatorId      string `json:"creatorId,omitempty"`
-	CreateDate     int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	Id           string              `json:"_id,omitempty"`
+	Name         string              `json:"name,omitempty"`
+	AppId        string              `json:"appId,omitempty"`
+	Organization ReducedOrganization `json:"organization,omitempty"`
+	Creator      ReducedUser         `json:"creator,omitempty"`
+	CreateDate   int                 `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
 type StreamCreation struct {
@@ -22,14 +22,14 @@ type StreamCreation struct {
 }
 
 type Stream struct {
-	Id             string `json:"_id,omitempty"`
-	Name           string `json:"name,omitempty"`
-	EventId        string `json:"eventId,omitempty"`
-	AppId          string `json:"appId,omitempty"`
-	Order          int    `json:"order,omitempty"`
-	OrganizationId string `json:"organizationId,omitempty"`
-	CreatorId      string `json:"creatorId,omitempty"`
-	CreateDate     int    `json:"createDate,omitempty"` // UTC+0 unix timestamp
+	Id           string              `json:"_id,omitempty"`
+	Name         string              `json:"name,omitempty"`
+	EventId      string              `json:"eventId,omitempty"`
+	AppId        string              `json:"appId,omitempty"`
+	Order        int                 `json:"order,omitempty"`
+	Organization ReducedOrganization `json:"organization,omitempty"`
+	Creator      ReducedUser         `json:"creator,omitempty"`
+	CreateDate   int                 `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
 type StreamOrder struct {
@@ -69,8 +69,8 @@ type Webhook struct {
 	SecurityHeaders WebhookSecurityHeaders `json:"securityHeaders,omitempty"`
 	AppId           string                 `json:"appId,omitempty"`
 	EventId         string                 `json:"eventId,omitempty"`
-	OrganizationId  string                 `json:"organizationId,omitempty"`
-	CreatorId       string                 `json:"creatorId,omitempty"`
+	Organization    ReducedOrganization    `json:"organization,omitempty"`
+	Creator         ReducedUser            `json:"creator,omitempty"`
 	CreateDate      int                    `json:"createDate,omitempty"` // UTC+0 unix timestamp
 	ModifyDate      int                    `json:"modifyDate,omitempty"` // UTC+0 unix timestamp
 }

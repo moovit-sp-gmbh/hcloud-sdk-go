@@ -18,12 +18,12 @@ type TeamCreation struct {
 	Users []string `json:"users"`
 }
 type Team struct {
-	Id             string   `json:"_id"`
-	Name           string   `json:"name"`
-	OrganizationId string   `json:"organizationId"`
-	Users          []string `json:"users"`
-	CreateDate     int      `json:"createDate"`
-	ModifyDate     int      `json:"modifyDate"`
+	Id           string              `json:"_id"`
+	Name         string              `json:"name"`
+	Organization ReducedOrganization `json:"organization"`
+	Users        []string            `json:"users"`
+	CreateDate   int                 `json:"createDate"`
+	ModifyDate   int                 `json:"modifyDate"`
 }
 
 type UserEmail struct {
@@ -191,7 +191,6 @@ type OAuthApplicationClientSecret struct {
 	Id         string `json:"_id"`
 	Name       string `json:"name"`
 	Secret     string `json:"secret"`
-	Uuid       string `json:"uuid"`
 	CreatorId  string `json:"creatorId"`
 	Used       bool   `json:"used"`
 	CreateDate int    `json:"createDate"`
@@ -209,8 +208,8 @@ type OAuthApplication struct {
 	ClientId     string                         `json:"clientId"`
 	ClientSecret []OAuthApplicationClientSecret `json:"clientSecret"`
 
-	OrganizationId string `json:"organizationId"`
-	CreatorId      string `json:"creatorId"`
+	Organization ReducedOrganization `json:"organization"`
+	Creator      ReducedUser         `json:"creator"`
 }
 
 type OAuthApplicationCreation struct {
@@ -224,4 +223,14 @@ type OAuthApplicationUpdate struct {
 	Avatar      string   `json:"avatar"`
 	Homepage    string   `json:"homepage"`
 	Callback    []string `json:"callback"`
+}
+
+type ReducedOrganization struct {
+	Id   string `json:"_id,omitempty"`
+	Name string `json:"name,omitempty"`
+}
+
+type ReducedUser struct {
+	Id   string `json:"_id,omitempty"`
+	Name string `json:"name,omitempty"`
 }
