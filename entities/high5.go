@@ -1,7 +1,7 @@
 package entities
 
-type High5App struct {
-	*App
+type High5Space struct {
+	*Space
 }
 
 type EventCreation struct {
@@ -11,7 +11,7 @@ type EventCreation struct {
 type Event struct {
 	Id           string              `json:"_id,omitempty"`
 	Name         string              `json:"name,omitempty"`
-	AppId        string              `json:"appId,omitempty"`
+	SpaceId        string              `json:"spaceId,omitempty"`
 	Organization ReducedOrganization `json:"organization,omitempty"`
 	Creator      ReducedUser         `json:"creator,omitempty"`
 	CreateDate   int                 `json:"createDate,omitempty"` // UTC+0 unix timestamp
@@ -25,7 +25,7 @@ type Stream struct {
 	Id           string              `json:"_id,omitempty"`
 	Name         string              `json:"name,omitempty"`
 	EventId      string              `json:"eventId,omitempty"`
-	AppId        string              `json:"appId,omitempty"`
+	SpaceId        string              `json:"spaceId,omitempty"`
 	Order        int                 `json:"order,omitempty"`
 	Organization ReducedOrganization `json:"organization,omitempty"`
 	Creator      ReducedUser         `json:"creator,omitempty"`
@@ -67,7 +67,7 @@ type Webhook struct {
 	Url             string                 `json:"url,omitempty"`
 	Target          string                 `json:"target"`
 	SecurityHeaders WebhookSecurityHeaders `json:"securityHeaders,omitempty"`
-	AppId           string                 `json:"appId,omitempty"`
+	SpaceId           string                 `json:"spaceId,omitempty"`
 	EventId         string                 `json:"eventId,omitempty"`
 	Organization    ReducedOrganization    `json:"organization,omitempty"`
 	Creator         ReducedUser            `json:"creator,omitempty"`
@@ -95,7 +95,7 @@ type WebhookSecurityHeaders struct {
 type WebhookLog struct {
 	Id                 string      `json:"_id,omitempty"`
 	WebhookId          string      `json:"webhookId,omitempty"`
-	AppId              string      `json:"appId,omitempty"`
+	SpaceId              string      `json:"spaceId,omitempty"`
 	EventId            string      `json:"eventId,omitempty"`
 	OrganizationId     string      `json:"organizationId,omitempty"`
 	SourceIP           string      `json:"sourceIp,omitempty"`

@@ -1,7 +1,7 @@
 package entities
 
-type FuseApp struct {
-	*App
+type FuseSpace struct {
+	*Space
 }
 
 type CronjobExpression struct {
@@ -34,12 +34,30 @@ type Cronjob struct {
 	Creator          ReducedUser         `json:"creator,omitempty"`
 	CreateDate       int                 `json:"createDate,omitempty"`
 	ModifyDate       int                 `json:"modifyDate,omitempty"`
-	AppName          string              `json:"app,omitempty"`
+	Space            string              `json:"space,omitempty"`
 	Organization     ReducedOrganization `json:"organization,omitempty"`
 	Headers          []CronjobHeader     `json:"headers,omitempty"`
 	Body             string              `json:"body,omitempty"`
 }
 
+type CronjobInternal struct {
+	Id               string            `json:"_id,omitempty"`
+	Enabled          bool              `json:"enabled,omitempty"`
+	Name             string            `json:"name,omitempty"`
+	Description      string            `json:"description,omitempty"`
+	Expression       string            `json:"expression,omitempty"`
+	Target           string            `json:"targetUrl,omitempty"`
+	Method           CronjobHttpMethod `json:"httpMethod,omitempty"`
+	AcceptInvalidSSL bool              `json:"acceptInvalidSSL,omitempty"`
+	Timezone         string            `json:"timezone,omitempty"`
+	Creator          ReducedUser       `json:"creator,omitempty"`
+	CreateDate       int               `json:"createDate,omitempty"`
+	ModifyDate       int               `json:"modifyDate,omitempty"`
+	SpaceId          string            `json:"spaceId,omitempty"`
+	OrganizationId   string            `json:"organizationId,omitempty"`
+	Headers          []CronjobHeader   `json:"headers,omitempty"`
+	Body             string            `json:"body,omitempty"`
+}
 type CronjobLogCreation struct {
 	StatusCode int             `json:"statusCode,omitempty"`
 	Headers    []CronjobHeader `json:"headers,omitempty"`

@@ -10,8 +10,8 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (c *Client) GetStreams(organization string, app string, event string, limit int, page int) (*[]entities.Stream, entities.Total, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/events/%s/streams?limit=%d&page=%d", organization, app, event, limit, page))
+func (c *Client) GetStreams(organization string, space string, event string, limit int, page int) (*[]entities.Stream, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces/%s/events/%s/streams?limit=%d&page=%d", organization, space, event, limit, page))
 
 	if err != nil {
 		return nil, 0, nil, err
@@ -31,8 +31,8 @@ func (c *Client) GetStreams(organization string, app string, event string, limit
 	return e, entities.Total(total), nil, nil
 }
 
-func (c *Client) GetStream(organization string, app string, event string, streamId string) (*entities.Stream, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/events/%s/streams/%s", organization, app, event, streamId))
+func (c *Client) GetStream(organization string, space string, event string, streamId string) (*entities.Stream, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces/%s/events/%s/streams/%s", organization, space, event, streamId))
 	if err != nil {
 		return nil, nil, err
 	}
@@ -46,8 +46,8 @@ func (c *Client) GetStream(organization string, app string, event string, stream
 	return e, resp, nil
 }
 
-func (c *Client) DeleteStream(organization string, app string, event string, streamId string) (*http.Response, *hcloud.ErrorResponse) {
-	resp, _, err := c.client.Delete(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/events/%s/stream/%s", organization, app, event, streamId), nil)
+func (c *Client) DeleteStream(organization string, space string, event string, streamId string) (*http.Response, *hcloud.ErrorResponse) {
+	resp, _, err := c.client.Delete(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/events/%s/stream/%s", organization, space, event, streamId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -55,8 +55,8 @@ func (c *Client) DeleteStream(organization string, app string, event string, str
 	return resp, nil
 }
 
-func (c *Client) CreateStream(organization string, app string, event string, stream *entities.StreamCreation) (*entities.Stream, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/events/%s/streams", organization, app, event), stream)
+func (c *Client) CreateStream(organization string, space string, event string, stream *entities.StreamCreation) (*entities.Stream, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/events/%s/streams", organization, space, event), stream)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -70,8 +70,8 @@ func (c *Client) CreateStream(organization string, app string, event string, str
 	return e, resp, nil
 }
 
-func (c *Client) ChangeStreamOrder(organization string, app string, event string, streamOrder *[]entities.StreamOrder) (*[]entities.Stream, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/events/%s/streams", organization, app, event), streamOrder)
+func (c *Client) ChangeStreamOrder(organization string, space string, event string, streamOrder *[]entities.StreamOrder) (*[]entities.Stream, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/events/%s/streams", organization, space, event), streamOrder)
 	if err != nil {
 		return nil, nil, err
 	}

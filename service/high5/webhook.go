@@ -10,8 +10,8 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (c *Client) GetWebhooks(organization string, app string, limit int, page int) (*[]entities.Webhook, entities.Total, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/webhooks?limit=%d&page=%d", organization, app, limit, page))
+func (c *Client) GetWebhooks(organization string, space string, limit int, page int) (*[]entities.Webhook, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks?limit=%d&page=%d", organization, space, limit, page))
 	if err != nil {
 		return nil, 0, nil, err
 	}
@@ -30,8 +30,8 @@ func (c *Client) GetWebhooks(organization string, app string, limit int, page in
 	return e, entities.Total(total), resp, nil
 }
 
-func (c *Client) CreateWebhook(organization string, app string, webhook *entities.WebhookCreation) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/webhooks", organization, app), *webhook)
+func (c *Client) CreateWebhook(organization string, space string, webhook *entities.WebhookCreation) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks", organization, space), *webhook)
 
 	if err != nil {
 		return nil, resp, err
@@ -46,8 +46,8 @@ func (c *Client) CreateWebhook(organization string, app string, webhook *entitie
 	return e, resp, nil
 }
 
-func (c *Client) PatchWebhook(organization string, app string, webhookId string, webhook *entities.PatchWebhook) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/webhooks/%s", organization, app, webhookId), *webhook)
+func (c *Client) PatchWebhook(organization string, space string, webhookId string, webhook *entities.PatchWebhook) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks/%s", organization, space, webhookId), *webhook)
 
 	if err != nil {
 		return nil, resp, err
@@ -62,8 +62,8 @@ func (c *Client) PatchWebhook(organization string, app string, webhookId string,
 	return e, resp, nil
 }
 
-func (c *Client) DeleteWebhook(organization string, app string, webhookId string) (*http.Response, *hcloud.ErrorResponse) {
-	resp, _, err := c.client.Delete(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/webhooks/%s", organization, app, webhookId), nil)
+func (c *Client) DeleteWebhook(organization string, space string, webhookId string) (*http.Response, *hcloud.ErrorResponse) {
+	resp, _, err := c.client.Delete(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks/%s", organization, space, webhookId), nil)
 	if err != nil {
 		return nil, err
 	}
@@ -71,8 +71,8 @@ func (c *Client) DeleteWebhook(organization string, app string, webhookId string
 	return resp, nil
 }
 
-func (c *Client) RegenerateWebhookUrl(organization string, app string, webhookId string) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/webhooks/%s/logs", organization, app, webhookId), "")
+func (c *Client) RegenerateWebhookUrl(organization string, space string, webhookId string) (*entities.Webhook, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks/%s/logs", organization, space, webhookId), "")
 	if err != nil {
 		return nil, nil, err
 	}
@@ -86,8 +86,8 @@ func (c *Client) RegenerateWebhookUrl(organization string, app string, webhookId
 	return e, resp, nil
 }
 
-func (c *Client) GetWebhookLogs(organization string, app string, webhookId string, limit int, page int) (*[]entities.WebhookLog, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/webhooks/%s/logs?limit=%d&page=%d", organization, app, webhookId, limit, page))
+func (c *Client) GetWebhookLogs(organization string, space string, webhookId string, limit int, page int) (*[]entities.WebhookLog, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces/%s/webhooks/%s/logs?limit=%d&page=%d", organization, space, webhookId, limit, page))
 	if err != nil {
 		return nil, nil, err
 	}

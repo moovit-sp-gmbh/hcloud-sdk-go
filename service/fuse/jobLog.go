@@ -10,8 +10,8 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (client *Client) GetJobLogs(orgName string, appName string, cronjobId string, limit int, page int) (*[]entities.CronjobLog, entities.Total, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := client.client.Get(client.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/jobs/%s/logs?limit=%d&page=%d", orgName, appName, cronjobId, limit, page))
+func (client *Client) GetJobLogs(orgName string, space string, cronjobId string, limit int, page int) (*[]entities.CronjobLog, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := client.client.Get(client.getEndpoint() + fmt.Sprintf("/v1/org/%s/space/%s/jobs/%s/logs?limit=%d&page=%d", orgName, space, cronjobId, limit, page))
 	if err != nil {
 		return nil, 0, nil, err
 	}
@@ -30,8 +30,8 @@ func (client *Client) GetJobLogs(orgName string, appName string, cronjobId strin
 	return cronjobLogs, entities.Total(total), resp, nil
 }
 
-func (client *Client) GetJobLogById(organization string, app string, cronJobId string, cronJobLogId string) (*entities.CronjobLog, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := client.client.Get(client.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s/jobs/%s/logs/%s", organization, app, cronJobId, cronJobLogId))
+func (client *Client) GetJobLogById(organization string, space string, cronJobId string, cronJobLogId string) (*entities.CronjobLog, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := client.client.Get(client.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces/%s/jobs/%s/logs/%s", organization, space, cronJobId, cronJobLogId))
 	if err != nil {
 		return nil, nil, err
 	}

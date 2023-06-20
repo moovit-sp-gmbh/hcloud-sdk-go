@@ -10,13 +10,13 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (c *Client) GetApps(organization string, limit int, page int) (*[]entities.FuseApp, entities.Total, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps?limit=%d&page=%d", organization, limit, page))
+func (c *Client) GetSpaces(organization string, limit int, page int) (*[]entities.FuseSpace, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/spaces?limit=%d&page=%d", organization, limit, page))
 	if err != nil {
 		return nil, 0, nil, err
 	}
 
-	v := &[]entities.FuseApp{}
+	v := &[]entities.FuseSpace{}
 	err1 := json.Unmarshal(body, v)
 	if err1 != nil {
 		return nil, 0, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
@@ -30,13 +30,13 @@ func (c *Client) GetApps(organization string, limit int, page int) (*[]entities.
 	return v, entities.Total(total), resp, nil
 }
 
-func (c *Client) GetApp(organization string, app string) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) GetApp(organization string, app string) (*entities.FuseSpace, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/org/%s/apps/%s", organization, app))
 	if err != nil {
 		return nil, nil, err
 	}
 
-	fuseApp := &entities.FuseApp{}
+	fuseApp := &entities.FuseSpace{}
 	err1 := json.Unmarshal(body, fuseApp)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
@@ -45,13 +45,13 @@ func (c *Client) GetApp(organization string, app string) (*entities.FuseApp, *ht
 	return fuseApp, resp, nil
 }
 
-func (c *Client) CreateApp(organization string, app *entities.AppCreation) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) CreateApp(organization string, app *entities.SpaceCreation) (*entities.FuseSpace, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps", organization), app)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &entities.FuseApp{}
+	v := &entities.FuseSpace{}
 	err1 := json.Unmarshal(body, v)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
@@ -60,13 +60,13 @@ func (c *Client) CreateApp(organization string, app *entities.AppCreation) (*ent
 	return v, resp, nil
 }
 
-func (c *Client) PatchAppPermissions(organization string, app string, permission *entities.AppPermissionPatch) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) PatchAppPermissions(organization string, app string, permission *entities.SpacePermissionPatch) (*entities.FuseSpace, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Patch(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s/permission", organization, app), permission)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &entities.FuseApp{}
+	v := &entities.FuseSpace{}
 	err1 := json.Unmarshal(body, v)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
@@ -75,13 +75,13 @@ func (c *Client) PatchAppPermissions(organization string, app string, permission
 	return v, resp, nil
 }
 
-func (c *Client) UpdateApp(organization string, app string, updatedApp *entities.AppCreation) (*entities.FuseApp, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) UpdateApp(organization string, app string, updatedApp *entities.SpaceCreation) (*entities.FuseSpace, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Put(c.getEndpoint()+fmt.Sprintf("/v1/org/%s/apps/%s", organization, app), updatedApp)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	v := &entities.FuseApp{}
+	v := &entities.FuseSpace{}
 	err1 := json.Unmarshal(body, v)
 	if err1 != nil {
 		return nil, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}

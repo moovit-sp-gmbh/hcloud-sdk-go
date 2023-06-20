@@ -29,16 +29,16 @@ type SearchDateFilter struct {
 	Operator SearchDateOperator `json:"searchDateOperator"`
 }
 
-type AppPermissionPatch struct {
+type SpacePermissionPatch struct {
 	UserId string `json:"userId"`
 	// Use AppPermission.NONE to remove access
-	Permission AppPermission `json:"permission"`
+	Permission SpacePermission `json:"permission"`
 }
 
-type AppCreation struct {
+type SpaceCreation struct {
 	Name string `json:"name"`
 }
-type App struct {
+type Space struct {
 	Id           string              `json:"_id,omitempty"`
 	Name         string              `json:"name,omitempty"`
 	Permissions  []Permission        `json:"permissions,omitempty"`
@@ -47,20 +47,20 @@ type App struct {
 	CreateDate   int                 `json:"createDate,omitempty"` // UTC+0 unix timestamp
 }
 
-type AppPermission string
+type SpacePermission string
 
 const (
-	NONE    AppPermission = "NONE"
-	READ    AppPermission = "READ"
-	EXECUTE AppPermission = "EXECUTE"
-	WRITE   AppPermission = "WRITE"
-	MANAGE  AppPermission = "MANAGE"
-	OWNER   AppPermission = "OWNER"
+	NONE    SpacePermission = "NONE"
+	READ    SpacePermission = "READ"
+	EXECUTE SpacePermission = "EXECUTE"
+	WRITE   SpacePermission = "WRITE"
+	MANAGE  SpacePermission = "MANAGE"
+	OWNER   SpacePermission = "OWNER"
 )
 
 type Permission struct {
-	UserId     string        `json:"userId,omitempty"`
-	Permission AppPermission `json:"permission,omitempty"`
+	UserId     string          `json:"userId,omitempty"`
+	Permission SpacePermission `json:"permission,omitempty"`
 }
 
 func (p Permission) String() string {
