@@ -1,7 +1,7 @@
 package entities
 
-type FuseApp struct {
-	*App
+type FuseSpace struct {
+	*Space
 }
 
 type CronjobExpression struct {
@@ -34,7 +34,7 @@ type Cronjob struct {
 	Creator          ReducedUser         `json:"creator,omitempty"`
 	CreateDate       int                 `json:"createDate,omitempty"`
 	ModifyDate       int                 `json:"modifyDate,omitempty"`
-	AppName          string              `json:"app,omitempty"`
+	Space            string              `json:"space,omitempty"`
 	Organization     ReducedOrganization `json:"organization,omitempty"`
 	Headers          []CronjobHeader     `json:"headers,omitempty"`
 	Body             string              `json:"body,omitempty"`

@@ -9,8 +9,8 @@ import (
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
 )
 
-func (client *Client) CreateCronjobLog(orgName string, appName string, cronjobId string, log entities.CronjobLogCreation) (*entities.CronjobLog, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := client.client.Post(client.getEndpoint() + fmt.Sprintf("internal/v1/org/%s/apps/%s/jobs/%s/logs", orgName, appName, cronjobId), log)
+func (client *Client) CreateCronjobLog(orgName string, space string, cronjobId string, log entities.CronjobLogCreation) (*entities.CronjobLog, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := client.client.Post(client.getEndpoint() + fmt.Sprintf("internal/v1/org/%s/spaces/%s/jobs/%s/logs", orgName, space, cronjobId), log)
 	if err != nil {
 		return nil, nil, err
 	}
