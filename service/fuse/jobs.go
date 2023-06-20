@@ -117,13 +117,13 @@ func (c *Client) GetNextJobExecutions(organization string, space string, jobId s
 // GetAll requests all existing jobs form the backend
 //
 // INTERNAL ENDPOINT ONLY, REQUIRES MAIN 'hcloud' USER
-func (c *Client) GetAllJobs(limit int, page int) (*[]entities.Cronjob, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+func (c *Client) GetAllJobs(limit int, page int) (*[]entities.CronjobInternal, entities.Total, *http.Response, *hcloud.ErrorResponse) {
 	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/internal/v1/jobs/all?limit=%d&page=%d", limit, page))
 	if err != nil {
 		return nil, 0, nil, err
 	}
 
-	v := &[]entities.Cronjob{}
+	v := &[]entities.CronjobInternal{}
 	err1 := json.Unmarshal(body, v)
 	if err1 != nil {
 		return nil, 0, nil, &hcloud.ErrorResponse{Code: "000.000.000", Error: "sdk.body.unmarshal", Message: err1.Error()}
