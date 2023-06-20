@@ -7,9 +7,11 @@ import (
 
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go"
 	"github.com/moovit-sp-gmbh/hcloud-sdk-go/entities"
+	"github.com/sirupsen/logrus"
 )
 
 func (client *Client) CreateCronjobLog(orgName string, space string, cronjobId string, log entities.CronjobLogCreation) (*entities.CronjobLog, *http.Response, *hcloud.ErrorResponse) {
+	logrus.Infof(client.getEndpoint() + fmt.Sprintf("internal/v1/org/%s/spaces/%s/jobs/%s/logs", orgName, space, cronjobId))
 	resp, body, err := client.client.Post(client.getEndpoint() + fmt.Sprintf("internal/v1/org/%s/spaces/%s/jobs/%s/logs", orgName, space, cronjobId), log)
 	if err != nil {
 		return nil, nil, err
