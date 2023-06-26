@@ -50,7 +50,7 @@ type CronjobInternal struct {
 	Method           CronjobHttpMethod `json:"httpMethod,omitempty"`
 	AcceptInvalidSSL bool              `json:"acceptInvalidSSL,omitempty"`
 	Timezone         string            `json:"timezone,omitempty"`
-	Creator          ReducedUser       `json:"creator,omitempty"`
+	CreatorId        string            `json:"creatorId,omitempty"`
 	CreateDate       int               `json:"createDate,omitempty"`
 	ModifyDate       int               `json:"modifyDate,omitempty"`
 	SpaceId          string            `json:"spaceId,omitempty"`
