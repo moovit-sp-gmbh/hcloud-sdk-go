@@ -8,7 +8,7 @@ import (
 )
 
 func (c *Client) Login(login *entities.Login) (*entities.Token, *entities.User, *hcloud.ErrorResponse) {
-	resp,body, err := c.client.Post(c.getEndpoint()+"/v1/login", *login)
+	resp, body, err := c.client.Post(c.getEndpoint()+"/v1/login", *login)
 	if err != nil {
 		return nil, nil, err
 	}
