@@ -19,6 +19,7 @@ type CronjobCreation struct {
 	Headers          []CronjobHeader   `json:"headers,omitempty"`
 	Body             string            `json:"body,omitempty"`
 	Enabled          bool              `json:"enabled,omitempty"`
+	HmacSettings     *HmacSettings     `json:"hmacSettings,omitempty"`
 }
 
 type Cronjob struct {
@@ -38,6 +39,7 @@ type Cronjob struct {
 	Organization     ReducedOrganization `json:"organization,omitempty"`
 	Headers          []CronjobHeader     `json:"headers,omitempty"`
 	Body             string              `json:"body,omitempty"`
+	HmacSettings     *HmacSettings       `json:"hmacSettings,omitempty"`
 }
 
 type CronjobInternal struct {
@@ -57,6 +59,7 @@ type CronjobInternal struct {
 	OrganizationId   string            `json:"organizationId,omitempty"`
 	Headers          []CronjobHeader   `json:"headers,omitempty"`
 	Body             string            `json:"body,omitempty"`
+	HmacSettings     *HmacSettings     `json:"hmacSettings,omitempty"`
 }
 type CronjobLogCreation struct {
 	StatusCode int             `json:"statusCode,omitempty"`
@@ -91,3 +94,16 @@ type CronjobHeader struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
+
+type HmacSettings struct {
+	HeaderName string          `json:"headerName,omitempty"`
+	Secret     string          `json:"secret,omitempty"`
+	Algorithm  HmacHashingAlgo `json:"algorithm,omitempty"`
+}
+
+type HmacHashingAlgo string
+
+const (
+	SHA_1   HmacHashingAlgo = "SHA-1"
+	SHA_256 HmacHashingAlgo = "SHA-256"
+)
