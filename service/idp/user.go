@@ -105,8 +105,8 @@ func (c *Client) PatchUser(user *entities.PatchUser) (*entities.User, *http.Resp
 }
 
 // GetUserOrgs returns all organizations of the user for the active token
-func (c *Client) GetUserOrganizations(limit int, page int) (*[]entities.Organization, entities.Total, *http.Response, *hcloud.ErrorResponse) {
-	resp, body, err := c.client.Get(c.getEndpoint() + fmt.Sprintf("/v1/user/orgs?limit=%d&page=%d", limit, page))
+func (c *Client) GetUserOrganizations(limit int, page int, search entities.Search) (*[]entities.Organization, entities.Total, *http.Response, *hcloud.ErrorResponse) {
+	resp, body, err := c.client.Post(c.getEndpoint()+fmt.Sprintf("/v1/user/orgs/search?limit=%d&page=%d", limit, page), search)
 	if err != nil {
 		return nil, 0, nil, err
 	}

@@ -66,3 +66,53 @@ type Permission struct {
 func (p Permission) String() string {
 	return fmt.Sprintf("     UserId:         %s\n      Permissions:    %s\n", p.UserId, p.Permission)
 }
+
+type Search struct {
+	Filters []SearchFilter `json:"filters,omitempty"`
+	Sorting *Sorting       `json:"sorting,omitempty"`
+}
+
+type Comparator string
+
+const (
+	IS                    Comparator = "is"
+	IS_NOT                Comparator = "is not"
+	STARTS_WITH           Comparator = "starts with"
+	ENDS_WITH             Comparator = "ends with"
+	CONTAINS              Comparator = "contains"
+	GREATER_THAN          Comparator = "greater than"
+	LESS_THAN             Comparator = "less than"
+	GREATER_THAN_OR_EQUAL Comparator = "greater than or equal"
+	LESS_THAN_OR_EQUAL    Comparator = "less than or equal"
+)
+
+type SearchFilter struct {
+	Type       SearchFilterType
+	Key        string
+	Comparator Comparator
+	Value      any
+}
+
+type SearchFilterType string
+
+const (
+	STRING      SearchFilterType = "STRING"
+	SELECT      SearchFilterType = "SELECT"
+	MULTISELECT SearchFilterType = "MULTISELECT"
+	TYPEAHEAD   SearchFilterType = "TYPEAHEAD"
+	NUMBER      SearchFilterType = "NUMBER"
+	DATE        SearchFilterType = "DATE"
+	BOOLEAN     SearchFilterType = "BOOLEAN"
+)
+
+type SortDirection string
+
+const (
+	ASC  SortDirection = "ASC"
+	DESC SortDirection = "DESC"
+)
+
+type Sorting struct {
+	Direction SortDirection `json:"direction,omitempty"`
+	Fields    []string      `json:"fields,omitempty"`
+}
