@@ -110,7 +110,7 @@ func TestIGetUserOrgs(t *testing.T) {
 
 	client := hcloud.New(client)
 	i := New(client)
-	userOrgs, total, _, err := i.GetUserOrganizations(1, 0)
+	userOrgs, total, _, err := i.GetUserOrganizations(1, 0, entities.Search{})
 
 	if err != nil {
 		t.Error(err)
