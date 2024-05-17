@@ -10,6 +10,7 @@ jobs:
       EMAIL: ${{ vars.EMAIL }}
       SERVER: ${{ vars.SERVER }}
       TOKEN: ${{ secrets.TOKEN }}
+      PASSWORD: ${{ secrets.PASSWORD }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
